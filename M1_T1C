@@ -1,0 +1,55 @@
+const int motion_pin = 3;
+const int button = 2;
+const int led = 4;
+const int temp_pin = A5;
+const int led2 = 11;
+const int led_temp = 13; //IN BUILT
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(motion_pin, INPUT);
+  pinMode(button, INPUT_PULLUP); 
+  pinMode(led, OUTPUT);
+  pinMode(temp_pin, INPUT);
+  pinMode(led2, OUTPUT);
+  pinMode(led_temp, OUTPUT);
+ 
+  attachInterrupt(digitalPinToInterrupt(button), Interrupt, CHANGE);
+}
+
+void Interrupt() {
+  if (digitalRead(button) == HIGH) { 
+    digitalWrite(led2, HIGH);
+    Serial.println("INTERRUPT");
+    digitalWrite(led2, LOW);
+  }
+  delay(1000);
+}
+
+void loop() {
+  // Motion sensor
+  int motionDetected = digitalRead(motion_pin);
+  if (motionDetected == HIGH) {
+    Serial.println("DETECTED");
+    digitalWrite(led, HIGH);
+    delay(1000);
+  } else {
+    Serial.println("MOTION NOT DETECTED");
+    digitalWrite(led, LOW);
+    delay(1000);
+  }
+  
+  //temperature sensor
+  int temperature = analogRead(temp_pin);
+  if(temperature > 40)
+  {
+  Serial.print("TEMPERATURE HIGH  ");
+  int mappedTemperature = map(temperature, 0, 1023, -10, 40); 
+    Serial.println(mappedTemperature);
+    digitalWrite(led_temp, HIGH);
+  }
+  else{
+    Serial.println("TEMPERATURE LOW");
+    digitalWrite(led_temp, LOW);
+  }
+}
