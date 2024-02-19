@@ -1,9 +1,9 @@
-const int motion_pin = 3;
+const int motion_pin = 3; 
 const int button = 2;
 const int led = 4;
 const int temp_pin = A5;
 const int led2 = 11;
-const int led_temp = 13; //IN BUILT
+const int led_temp = 13; /
 
 void setup() {
   Serial.begin(9600);
@@ -40,12 +40,13 @@ void loop() {
   }
   
   //temperature sensor
-  int temperature = analogRead(temp_pin);
+  int temperature = analogRead(temp_pin); //using the analog read function to get the temperature pin value
+//use a condition to check the temperature and inform the user
   if(temperature > 40)
   {
   Serial.print("TEMPERATURE HIGH  ");
-  int mappedTemperature = map(temperature, 0, 1023, -10, 40); 
-    Serial.println(mappedTemperature);
+  int mappedTemperature = map(temperature, 0, 1023, -10, 40); //using the map function to set the range of inputs and output values for simplicity and ease to maintain
+    Serial.println(mappedTemperature); 
     digitalWrite(led_temp, HIGH);
   }
   else{
